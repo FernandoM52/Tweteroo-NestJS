@@ -9,7 +9,7 @@ import { CreateTweetDto } from './dtos/create-tweet.dtos';
 export class AppController {
   constructor(private readonly appService: AppService) { }
 
-  @Get()
+  @Get("/")
   getHello(): string {
     return this.appService.getHello();
   }
@@ -33,8 +33,13 @@ export class AppController {
   getTweets(@Query("page") page: string): TweetWithAvatar[] {
     const parsedPage = parseInt(page);
     if (parsedPage < 1 || isNaN(parsedPage) && page !== undefined) throw new HttpException("Página inválida", HttpStatus.BAD_REQUEST);
-    
+
     return this.appService.getTweets(parsedPage);
+  }
+
+  @Get("tweets/:username")
+  getTweetsByUser(@Param("username") username: string): TweetWithAvatar[] {
+    return this.appService.getTweetsByUser(username);
   }
 
   @Get("users")

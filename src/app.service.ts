@@ -15,7 +15,7 @@ export class AppService {
   }
 
   getHello(): string {
-    return 'Hello World!';
+    return "I'm okay!";
   }
 
   //TODO: achar uma forma melhor de garantir que avatar é um URL válida
@@ -45,13 +45,25 @@ export class AppService {
       lastFifteenTweets = this.tweets.slice(startIndex, startIndex + LIMIT);
     }
 
-    const TweetsList = lastFifteenTweets.map((tweet) => {
+    const tweetsList = lastFifteenTweets.map((tweet) => {
       const tweetUser = this.users.find(user => user.username === tweet.username);
       const avatar = tweetUser ? tweetUser.avatar : null;
       return { username: tweet.username, avatar, tweet: tweet.tweet };
     });
 
-    return TweetsList;
+    return tweetsList;
+  }
+
+  getTweetsByUser(username: string): TweetWithAvatar[] {
+    const tweetsByUser = this.tweets
+      .filter(tweet => tweet.username === username)
+      .map((tweet) => {
+        const tweetsUser = this.users.find(user => user.username === tweet.username);
+        const avatar = tweetsUser ? tweetsUser.avatar : null;
+        return { username: tweet.username, avatar, tweet: tweet.tweet };
+      });
+
+    return tweetsByUser;
   }
 
   getUsers(): User[] {
