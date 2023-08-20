@@ -1,6 +1,6 @@
-import { Body, Controller, Get, HttpCode, HttpException, HttpStatus, Post } from '@nestjs/common';
+import { Body, Controller, Get, HttpCode, HttpException, HttpStatus, Param, Post, Query } from '@nestjs/common';
 import { AppService } from './app.service';
-import { Tweet } from './entities/tweets';
+import { Tweet, TweetWithAvatar } from './entities/tweets';
 import { CreateUserDto } from './dtos/create-user.dtos';
 import { User } from './entities/users'; //retirar dps
 import { CreateTweetDto } from './dtos/create-tweet.dtos';
@@ -30,8 +30,11 @@ export class AppController {
   }
 
   @Get("tweets")
-  getTweets(): Tweet[] {
-    return this.appService.getTweets();
+  getTweets(@Query("page") page: string): TweetWithAvatar[] {
+    const parsedPage = parseInt(page);
+    if (parsedPage < 1 || isNaN(parsedPage) && page !== undefined) throw new HttpException("Página inválida", HttpStatus.BAD_REQUEST);
+    
+    return this.appService.getTweets(parsedPage);
   }
 
   @Get("users")

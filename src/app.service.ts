@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { User } from './entities/users';
-import { Tweet } from './entities/tweets';
+import { Tweet, TweetWithAvatar } from './entities/tweets';
 import { CreateUserDto } from './dtos/create-user.dtos';
 import { CreateTweetDto } from './dtos/create-tweet.dtos';
 
@@ -36,10 +36,22 @@ export class AppService {
     }
   }
 
-  getTweets(): Tweet[] {
-    // const lastFifteenTweets = this.tweets.slice(-15);
-    // return lastFifteenTweets;
-    return this.tweets;
+  getTweets(page?: number): TweetWithAvatar[] {
+    const LIMIT = 15;
+    let lastFifteenTweets = this.tweets.slice(-15);
+
+    if (page) {
+      const startIndex = (page - 1) * LIMIT;
+      lastFifteenTweets = this.tweets.slice(startIndex, startIndex + LIMIT);
+    }
+
+    const TweetsList = lastFifteenTweets.map((tweet) => {
+      const tweetUser = this.users.find(user => user.username === tweet.username);
+      const avatar = tweetUser ? tweetUser.avatar : null;
+      return { username: tweet.username, avatar, tweet: tweet.tweet };
+    });
+
+    return TweetsList;
   }
 
   getUsers(): User[] {
