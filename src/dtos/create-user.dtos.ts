@@ -7,6 +7,6 @@ export class CreateUserDto {
 
   @IsString({ message: "All fields are required!" })
   @IsNotEmpty({ message: "All fields are required!" })
-  @IsUrl({}, { message: "All fields are required!" })
+  @IsUrl({require_protocol: true}, { message: "All fields are required!" })
   avatar: string;
 }

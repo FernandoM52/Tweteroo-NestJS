@@ -18,7 +18,6 @@ export class AppService {
     return "I'm okay!";
   }
 
-  //TODO: achar uma forma melhor de garantir que avatar é um URL válida
   signUp(body: CreateUserDto) {
     const { username, avatar } = body;
     this.users.push(new User(username, avatar));
@@ -51,7 +50,7 @@ export class AppService {
       return { username: tweet.username, avatar, tweet: tweet.tweet };
     });
 
-    return tweetsList;
+    return tweetsList.reverse();
   }
 
   getTweetsByUser(username: string): TweetWithAvatar[] {
@@ -63,7 +62,7 @@ export class AppService {
         return { username: tweet.username, avatar, tweet: tweet.tweet };
       });
 
-    return tweetsByUser;
+    return tweetsByUser.reverse();
   }
 
   getUsers(): User[] {

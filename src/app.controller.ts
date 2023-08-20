@@ -1,9 +1,9 @@
 import { Body, Controller, Get, HttpCode, HttpException, HttpStatus, Param, Post, Query } from '@nestjs/common';
 import { AppService } from './app.service';
-import { Tweet, TweetWithAvatar } from './entities/tweets';
+import { TweetWithAvatar } from './entities/tweets';
 import { CreateUserDto } from './dtos/create-user.dtos';
-import { User } from './entities/users'; //retirar dps
 import { CreateTweetDto } from './dtos/create-tweet.dtos';
+import { User } from './entities/users';
 
 @Controller()
 export class AppController {
